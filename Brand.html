@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Footwear Brand Price Summary</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
+      color: #1f2937;
+    }
+
+    header {
+      background: white;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .back-button {
+      text-decoration: none;
+      background-color: #3b82f6;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #2563eb;
+    }
+
+    section {
+      padding: 2rem;
+      background-color: white;
+      margin: 1rem auto;
+      max-width: 1200px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+    }
+
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 0.75rem;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #f9fafb;
+    }
+
+    canvas {
+      margin: 2rem auto 1rem;
+      display: block;
+      max-width: 700px;
+      height: 400px !important;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Footwear Price with Brands</h1>
+    <a href="./Home.html" class="back-button">Back</a>
+  </header>
+
+  <section>
+    <h3>Radar Chart: Brand-wise Price Min vs Max Distribution</h3>
+    <canvas id="priceRadarChart"></canvas>
+  </section>
+
+  <section>
+    <h3>Price Summary Table</h3>
+    <table>
+      <thead>
+        <tr><th>Brand</th><th>Price Min (INR)</th><th>Price Max (INR)</th></tr>
+      </thead>
+      <tbody id="priceTableBody"></tbody>
+      <tfoot>
+        <tr><td><strong>Grand Total</strong></td><td>2,168,874</td><td>6,623,917</td></tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <script>
+    const brandData = [
+      { name: "Adidas", min: 225666, max: 679657 },
+      { name: "Bata", min: 226367, max: 689310 },
+      { name: "Khadim", min: 214578, max: 672471 },
+      { name: "Liberty", min: 200590, max: 595163 },
+      { name: "Nike", min: 205273, max: 602767 },
+      { name: "Paragon", min: 218176, max: 660442 },
+      { name: "Puma", min: 210889, max: 662371 },
+      { name: "Reebok", min: 229299, max: 714911 },
+      { name: "Relaxo", min: 230366, max: 698673 },
+      { name: "Woodland", min: 207670, max: 648152 }
+    ];
+
+    const tbody = document.getElementById('priceTableBody');
+    brandData.forEach(({ name, min, max }) => {
+      const row = `<tr><td>${name}</td><td>${min.toLocaleString()}</td><td>${max.toLocaleString()}</td></tr>`;
+      tbody.innerHTML += row;
+    });
+
+    const radarCtx = document.getElementById('priceRadarChart').getContext('2d');
+    new Chart(radarCtx, {
+      type: 'radar',
+      data: {
+        labels: brandData.map(d => d.name),
+        datasets: [
+          {
+            label: 'Min Price',
+            data: brandData.map(d => d.min),
+            backgroundColor: 'rgba(96, 165, 250, 0.2)', // Light Blue
+            borderColor: '#60a5fa',
+            borderWidth: 2,
+            pointBackgroundColor: '#60a5fa',
+          },
+          {
+            label: 'Max Price',
+            data: brandData.map(d => d.max),
+            backgroundColor: 'rgba(239, 68, 68, 0.2)', // Light Red
+            borderColor: '#ef4444',
+            borderWidth: 2,
+            pointBackgroundColor: '#ef4444',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `${context.label}: ₹${context.parsed.r.toLocaleString()}`;
+              }
+            }
+          },
+          legend: {
+            position: 'top'
+          }
+        },
+        scales: {
+          r: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return '₹ ' + value.toLocaleString();
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

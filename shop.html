@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footwear Price Summary</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background-color: #f0f4f8; margin: 0; padding: 0; color: #1f2937; }
+    header { background: white; padding: 1.5rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    h1 { margin: 0; font-size: 1.8rem; }
+    .back-button { text-decoration: none; background-color: #3b82f6; color: white; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.9rem; transition: background-color 0.3s; }
+    .back-button:hover { background-color: #2563eb; }
+    section { padding: 2rem; background-color: white; margin: 1rem auto; max-width: 1200px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+    th, td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; font-size: 0.95rem; }
+    th { background-color: #f9fafb; }
+    canvas { margin: 2rem auto 1rem; display: block; max-width: 1000px; height: 400px !important; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Footwear Price with shops</h1>
+    <a href="./Home.html" class="back-button">Back</a>
+  </header>
+
+  <section>
+    <h3>Bubble Chart: Price Min vs Max</h3>
+    <canvas id="bubbleChart"></canvas>
+  </section>
+
+  <section>
+    <h3>Price Summary Table</h3>
+    <table>
+      <thead>
+        <tr><th>Brand</th><th>Price Min (INR)</th><th>Price Max (INR)</th></tr>
+      </thead>
+      <tbody id="priceTableBody"></tbody>
+      <tfoot>
+        <tr><td><strong>Grand Total</strong></td><td>2,168,874</td><td>6,623,917</td></tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <script>
+    const brandData = [
+      { name: "Boot Barn", min: 21940, max: 66883 },
+      { name: "Boots & Beyond", min: 20839, max: 64967 },
+      { name: "Cobbler's Corner", min: 20889, max: 65663 },
+      { name: "Cobbler's Creations", min: 20764, max: 70300 },
+      { name: "Cobbler's Loft", min: 18126, max: 59463 },
+      { name: "Comfort Cove", min: 24426, max: 81521 },
+      { name: "Comfort Feet", min: 20453, max: 56578 },
+      { name: "Comfort Zone", min: 23292, max: 73533 },
+      { name: "Elite Footwear", min: 22984, max: 71761 },
+      { name: "Elite Steps", min: 18293, max: 59500 },
+      { name: "Fashion Feet", min: 17796, max: 53750 },
+      { name: "Feet Retreat", min: 23960, max: 66362 },
+      { name: "Foam Fancy", min: 21403, max: 58217 },
+      { name: "Foam Footers", min: 17679, max: 65465 },
+      { name: "Foot Express", min: 25098, max: 64037 },
+      { name: "Foot Finesse", min: 25685, max: 80374 },
+      { name: "Foot Flow", min: 20446, max: 57390 },
+      { name: "Foot Forward", min: 15718, max: 48133 },
+      { name: "Foot Frenzy", min: 21197, max: 65272 },
+      { name: "Foot Groove", min: 21709, max: 68946 },
+      { name: "Footology", min: 23702, max: 65582 },
+      { name: "Footprint Fashion", min: 16495, max: 56284 },
+      { name: "Footprints", min: 15476, max: 49790 },
+      { name: "FootStyle", min: 22114, max: 67557 },
+      { name: "Footwear Fiesta", min: 13656, max: 45178 },
+      { name: "Footwear Fix", min: 23037, max: 69252 },
+      { name: "Footwear Paradise", min: 22850, max: 68819 }
+      // You can continue the list further...
+    ];
+
+    const tbody = document.getElementById('priceTableBody');
+    brandData.forEach(({ name, min, max }) => {
+      const row = `<tr><td>${name}</td><td>${min.toLocaleString()}</td><td>${max.toLocaleString()}</td></tr>`;
+      tbody.innerHTML += row;
+    });
+
+    const ctx = document.getElementById('bubbleChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bubble',
+      data: {
+        datasets: brandData.map(({ name, min, max }) => ({
+          label: name,
+          data: [{ x: min, y: max, r: 6 }],
+          backgroundColor: 'rgba(75,192,192,0.5)',
+          borderColor: 'rgba(75,192,192,1)',
+        }))
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: Min ₹${ctx.raw.x}, Max ₹${ctx.raw.y}` } },
+          legend: { display: false }
+        },
+        scales: {
+          x: { title: { display: true, text: 'Min Price (INR)' } },
+          y: { title: { display: true, text: 'Max Price (INR)' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

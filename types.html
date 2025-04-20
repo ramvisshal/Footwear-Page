@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footwear Prices by Type</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background-color: #f0f4f8; margin: 0; padding: 0; color: #1f2937; }
+    header { 
+      background: white; 
+      padding: 1.5rem 2rem; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      position: relative;
+    }
+    h1 { margin: 0; font-size: 1.8rem; }
+    .back-button {
+      position: absolute;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #60a5fa;
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    .back-button:hover {
+      background-color: #1d4ed8;
+    }
+    section { padding: 2rem; background-color: white; margin: 1rem auto; max-width: 1200px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+    th, td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; font-size: 0.9rem; }
+    th { background-color: #f9fafb; }
+    canvas { margin: 2rem auto 1rem; display: block; max-width: 1100px; height: 400px !important; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Footwear Prices by Type</h1>
+    <a href="./Home.html" class="back-button">Back</a>
+  </header>
+
+  <section>
+    <h3>Footwear Price Distribution (Line Chart)</h3>
+    <canvas id="lineChart"></canvas>
+  </section>
+
+  <section>
+    <h3>Price Summary Table</h3>
+    <table>
+      <thead>
+        <tr><th>Footwear Type</th><th>Price Min (INR)</th><th>Price Max (INR)</th></tr>
+      </thead>
+      <tbody id="priceTableBody"></tbody>
+      <tfoot>
+        <tr><td><strong>Grand Total</strong></td><td>2,168,874</td><td>6,623,917</td></tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <script>
+    const footwearData = [
+      { type: "Ankle Boots", min: 32852, max: 100133 },
+      { type: "Ballet Flats", min: 47387, max: 145768 },
+      { type: "Bata Sandals", min: 43254, max: 120462 },
+      { type: "Biker Boots", min: 44795, max: 135460 },
+      { type: "Block Heels", min: 43770, max: 129374 },
+      { type: "Boat Shoes", min: 40042, max: 123331 },
+      { type: "Boot", min: 41837, max: 120910 },
+      { type: "Brogue", min: 53049, max: 159391 },
+      { type: "Casual Shoes", min: 41052, max: 128256 },
+      { type: "Chelsea Boots", min: 30092, max: 110449 }
+    ];
+
+    const tbody = document.getElementById('priceTableBody');
+    footwearData.forEach(({ type, min, max }) => {
+      const row = `<tr><td>${type}</td><td>${min.toLocaleString()}</td><td>${max.toLocaleString()}</td></tr>`;
+      tbody.innerHTML += row;
+    });
+
+    const labels = footwearData.map(f => f.type);
+    const minPrices = footwearData.map(f => f.min);
+    const maxPrices = footwearData.map(f => f.max);
+
+    const ctxLine = document.getElementById('lineChart').getContext('2d');
+    new Chart(ctxLine, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Min Price',
+            data: minPrices,
+            backgroundColor: 'rgba(96, 165, 250, 0.2)',
+            borderColor: '#60a5fa',
+            borderWidth: 2,
+            pointBackgroundColor: '#60a5fa',
+            fill: false
+          },
+          {
+            label: 'Max Price',
+            data: maxPrices,
+            backgroundColor: 'rgba(248, 113, 113, 0.2)',
+            borderColor: '#f87171',
+            borderWidth: 2,
+            pointBackgroundColor: '#f87171',
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Footwear Price Range by Type (Line Chart)'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': INR ' + context.parsed.y.toLocaleString();
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return 'INR ' + value.toLocaleString();
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

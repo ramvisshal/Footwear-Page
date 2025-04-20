@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madurai Footwears Prices Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+        }
+
+        header, section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header {
+            background: linear-gradient(to right, #4f46e5, #3b82f6);
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #e0e7ff;
+        }
+
+        section#about {
+            background-color: #ffffff;
+        }
+
+        section#about h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        section#about p {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #4b5563;
+            line-height: 1.8;
+        }
+
+        section#categories {
+            background-color: #f3f4f6;
+        }
+
+        section#categories h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        section#categories p {
+            font-size: 1.1rem;
+            color: #4b5563;
+            margin-bottom: 2rem;
+        }
+
+        .category-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .category-btn {
+            padding: 12px 25px;
+            background-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        .category-btn:hover {
+            background-color: #1d4ed8;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1f2937;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Welcome to Madurai Footwears</h1>
+        <p>Explore prices, brands, and types of footwear across Madurai with ease</p>
+    </header>
+
+    <section id="about">
+        <h2>About Madurai Footwears</h2>
+        <p>The Madurai Footwears website is a dedicated platform designed to provide comprehensive insights into the footwear market across Madurai. It enables users to explore and compare footwear prices across five key categories: area, brand, material, type of footwear, and shop.
+        <br><br>
+        <strong>🔍 Key Features</strong><br><br>
+        <strong>1. Area-Wise Price Comparison:</strong> Analyze how prices vary in neighborhoods like Periyar, KK Nagar.<br>
+        <strong>2. Brand Analysis:</strong> Get trends and comparisons on top brands like Adidas, Bata, Khadim's, and more.<br>
+        <strong>3. Material-Based Insights:</strong> Compare price ranges for Foam, Leather, Rubber, and other materials.<br>
+        <strong>4. Type of Footwear:</strong> Browse by casuals, formals, sandals, slippers, and sports shoes.<br>
+        <strong>5. Shop Listings:</strong> Discover top-rated footwear shops with user reviews and product availability.<br><br>
+
+        <strong>👨‍💻 Created & Developed By:</strong><br>
+        This website and all its dashboards were designed and developed by <strong>Ram Visshal</strong>. I personally collected and analyzed the raw data, then built interactive, user-friendly visual dashboards to help users make smarter buying decisions in Madurai’s footwear market.
+        </p>
+    </section>
+
+    <section id="categories">
+        <h2>Explore Our Price Dashboard</h2>
+        <p>Select a category to start exploring detailed insights:</p>
+        <div class="category-buttons">
+            <a href="./area.html" class="category-btn">Area</a>
+            <a href="./Brand.html" class="category-btn">Brand</a>
+            <a href="./material.html" class="category-btn">Material</a>
+            <a href="./shop.html" class="category-btn">Shops</a>
+            <a href="./types.html" class="category-btn">Type of Footwear</a>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2025 Madurai Footwears | Designed to help you shop smarter
+    </footer>
+
+</body>
+</html>

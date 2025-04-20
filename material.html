@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Footwear Material Price Trends</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
+      color: #1f2937;
+    }
+
+    header {
+      background: white;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .back-button {
+      text-decoration: none;
+      background-color: #3b82f6;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #2563eb;
+    }
+
+    section {
+      padding: 2rem;
+      background-color: white;
+      margin: 1rem auto;
+      max-width: 1200px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    canvas {
+      margin: 2rem auto 1rem;
+      display: block;
+      max-width: 600px;
+      height: 400px !important;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+    }
+
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 0.75rem;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Footwear Price by Material</h1>
+    <a href="./Home.html" class="back-button">Back</a>
+  </header>
+
+  <section>
+    <h3>Pie Chart: Max Price Distribution by Material</h3>
+    <canvas id="materialMaxPieChart"></canvas>
+  </section>
+
+  <section>
+    <h3>Pie Chart: Min Price Distribution by Material</h3>
+    <canvas id="materialMinPieChart"></canvas>
+  </section>
+
+  <section>
+    <h3>Price Summary Table</h3>
+    <table>
+      <thead>
+        <tr><th>Material</th><th>Price Min (INR)</th><th>Price Max (INR)</th></tr>
+      </thead>
+      <tbody id="materialTableBody"></tbody>
+      <tfoot>
+        <tr><td><strong>Grand Total</strong></td><td>2,168,874</td><td>6,623,917</td></tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <script>
+    const materialData = [
+      { material: "Foam", min: 362979, max: 1066996 },
+      { material: "Leather", min: 343074, max: 1044120 },
+      { material: "Plastic", min: 342035, max: 1054914 },
+      { material: "Rubber", min: 364651, max: 1101973 },
+      { material: "Synthetic", min: 371853, max: 1145611 },
+      { material: "Textiles", min: 384282, max: 1210303 }
+    ];
+
+    const labels = materialData.map(d => d.material);
+    const maxPrices = materialData.map(d => d.max);
+    const minPrices = materialData.map(d => d.min);
+
+    const maxColors = [
+      '#60a5fa',
+      '#f97316',
+      '#34d399',
+      '#ef4444',
+      '#a78bfa',
+      '#facc15'
+    ];
+
+    const minColors = [
+      '#93c5fd',
+      '#fdba74',
+      '#6ee7b7',
+      '#fca5a5',
+      '#ddd6fe',
+      '#fde68a'
+    ];
+
+    const ctxMax = document.getElementById('materialMaxPieChart').getContext('2d');
+    const ctxMin = document.getElementById('materialMinPieChart').getContext('2d');
+
+    new Chart(ctxMax, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Max Price',
+          data: maxPrices,
+          backgroundColor: maxColors,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.label || '';
+                let value = context.parsed;
+                return `${label}: ₹${value.toLocaleString()}`;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    new Chart(ctxMin, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Min Price',
+          data: minPrices,
+          backgroundColor: minColors,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.label || '';
+                let value = context.parsed;
+                return `${label}: ₹${value.toLocaleString()}`;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Populate the table
+    const tbody = document.getElementById('materialTableBody');
+    materialData.forEach(({ material, min, max }) => {
+      const row = `<tr><td>${material}</td><td>${min.toLocaleString()}</td><td>${max.toLocaleString()}</td></tr>`;
+      tbody.innerHTML += row;
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Madurai Footwear Prices</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background-color: #f0f4f8; margin: 0; padding: 0; color: #1f2937; }
+    header { background: white; padding: 1.5rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    h1 { margin: 0; font-size: 1.8rem; }
+    .back-button { text-decoration: none; background-color: #3b82f6; color: white; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.9rem; transition: background-color 0.3s; }
+    .back-button:hover { background-color: #2563eb; }
+    section { padding: 2rem; background-color: white; margin: 1rem auto; max-width: 1000px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+    th, td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; font-size: 0.95rem; }
+    th { background-color: #f9fafb; }
+    canvas { margin: 2rem auto 1rem; display: block; max-width: 800px; height: 300px !important; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Footwear Price with Area</h1>
+    <a href="./Home.html" class="back-button">Back</a>
+  </header>
+
+  <section>
+    <h3>Min vs Max Prices by Location</h3>
+    <canvas id="priceChart"></canvas>
+  </section>
+
+  <section>
+    <h3>Price Summary Table</h3>
+    <table>
+      <thead>
+        <tr><th>Location</th><th>Price Min (INR)</th><th>Price Max (INR)</th></tr>
+      </thead>
+      <tbody id="priceTableBody"></tbody>
+      <tfoot>
+        <tr><td><strong>Grand Total</strong></td><td>2,168,874</td><td>6,623,917</td></tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <script>
+    const priceData = [
+      { name: "Annanagar", min: 145111, max: 458025 },
+      { name: "East Masi St", min: 159468, max: 485487 },
+      { name: "Kalavasal", min: 141143, max: 451899 },
+      { name: "KK Nagar", min: 159611, max: 490813 },
+      { name: "Koodal Nagar", min: 141679, max: 437205 },
+      { name: "Nagamalai", min: 166245, max: 487248 },
+      { name: "North Masi St", min: 160873, max: 509776 },
+      { name: "Periyar", min: 152843, max: 491830 },
+      { name: "Simmakkal", min: 151022, max: 444033 },
+      { name: "South Masi St", min: 147034, max: 478874 },
+      { name: "Teppakulam", min: 159075, max: 463962 },
+      { name: "Tiruppalai", min: 155285, max: 467172 },
+      { name: "Vilangudi", min: 151902, max: 440370 },
+      { name: "West Masi St", min: 177583, max: 517223 },
+    ];
+
+    // Render table rows
+    const tbody = document.getElementById('priceTableBody');
+    priceData.forEach(({ name, min, max }) => {
+      const row = `<tr><td>${name}</td><td>${min.toLocaleString()}</td><td>${max.toLocaleString()}</td></tr>`;
+      tbody.innerHTML += row;
+    });
+
+    // Render Chart.js bar chart
+    const ctx = document.getElementById('priceChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: priceData.map(d => d.name),
+        datasets: [
+          {
+            label: 'Price Min',
+            data: priceData.map(d => d.min),
+            backgroundColor: '#60a5fa'
+          },
+          {
+            label: 'Price Max',
+            data: priceData.map(d => d.max),
+            backgroundColor: '#f87171'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' },
+          tooltip: { mode: 'index', intersect: false },
+        },
+        scales: {
+          x: { ticks: { maxRotation: 45, minRotation: 45 } },
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
